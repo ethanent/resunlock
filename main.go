@@ -3,7 +3,7 @@ package main
 import (
 	"crypto/tls"
 	"fmt"
-	"github.com/ethanent/reswifi-unlock/requests"
+	"github.com/ethanent/resunlock/requests"
 	"net/http"
 	"net/http/cookiejar"
 	"time"
