@@ -1,4 +1,4 @@
-# reswifi-unlock
+# resunlock
 Unlock ResWiFi automatically
 
 ## Install
