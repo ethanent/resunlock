@@ -7,3 +7,9 @@ Unlock ResWiFi automatically
 go get -u github.com/ethanent/resunlock
 go install github.com/ethanent/resunlock
 ```
+
+## Use
+
+```sh
+resunlock
+```

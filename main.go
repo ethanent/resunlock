@@ -10,6 +10,8 @@ import (
 )
 
 func main() {
+	fmt.Println("===== ResUnlock =====")
+	
 	jar, err := cookiejar.New(&cookiejar.Options{})
 
 	if err != nil {
@@ -26,15 +28,41 @@ func main() {
 		Timeout: time.Second * 5,
 	}
 
-	fmt.Println("Submitting requests...")
+	fmt.Println("Checking status...")
+
+	blocked, err := requests.CheckBlocked(c)
+
+	if err != nil {
+		panic(err)
+	}
+
+	if !blocked {
+		fmt.Println("You are already authorized.")
+		return
+	}
+
+	fmt.Println("Not authorized. Submitting requests...")
 
 	if err := requests.SubmitAuthRest(c); err != nil {
 		panic(err)
 	}
 
-	if err := requests.FetchSafeConnect(c); err != nil {
-		panic(err)
-	}
+	fmt.Println("OK. Authorization requested. Waiting for confirmation...")
 
-	fmt.Println("OK. Unlocked.")
+	for {
+		b, err := requests.CheckBlocked(c)
+
+		if err != nil {
+			panic(err)
+		}
+
+		if b == false {
+			fmt.Println("\nAuthorization confirmed.")
+			return
+		}
+
+		fmt.Print(".")
+
+		time.Sleep(time.Millisecond * 700)
+	}
 }
